@@ -2,10 +2,12 @@ package com.pyikhine.todolist.services;
 
 import com.pyikhine.todolist.entities.Todo;
 import com.pyikhine.todolist.entities.User;
+import com.pyikhine.todolist.entities.integritycheck.TodoDataIntegrity;
 import com.pyikhine.todolist.exceptions.TodoDataIntegrityBrokenException;
 import com.pyikhine.todolist.exceptions.TodoNotFoundException;
 import com.pyikhine.todolist.repository.TodoRepository;
 import com.pyikhine.todolist.repository.UserRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import org.springframework.util.StringUtils;
 import java.util.Optional;
 
 @Service
+@Log4j2
 public class TodoService {
 
     @Autowired
@@ -30,7 +33,7 @@ public class TodoService {
             todo.setUser(user);
             todo.setUsername(username);
         } else {
-            String integrity = todoDataIntegrityCheck(todo);
+            String integrity = TodoDataIntegrity.check(todo);
             if (!integrity.isEmpty()) {
                 throw new TodoDataIntegrityBrokenException(integrity);
             }
@@ -61,18 +64,5 @@ public class TodoService {
             return todo.get();
         }
         throw new TodoNotFoundException("Todo ID: '" + id + "' does not exist or does not belong to the logged in user.");
-    }
-
-    public String todoDataIntegrityCheck(Todo todo) {
-        if (StringUtils.isEmpty(todo.getTodoTitle())) {
-            return "Todo Title is null.";
-        }
-        if (todo.getUser() == null) {
-            return "Todo's User is null.";
-        }
-        if (StringUtils.isEmpty(todo.getUsername())) {
-            return "Todo's Username is null.";
-        }
-        return "";
     }
 }
