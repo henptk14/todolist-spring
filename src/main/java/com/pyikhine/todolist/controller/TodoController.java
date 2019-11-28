@@ -34,7 +34,7 @@ public class TodoController {
 
     @GetMapping("/all")
     public Iterable<Todo> findAllTodo(Principal principal) {
-        return todoService.findAllTodosByUsername(principal.getName());
+        return todoService.findAllTodoByUsername(principal.getName());
     }
 
     @PatchMapping("")

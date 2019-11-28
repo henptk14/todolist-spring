@@ -11,7 +11,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
@@ -33,7 +32,7 @@ public class TodoService {
             todo.setUser(user);
             todo.setUsername(username);
         } else {
-            String integrity = TodoDataIntegrity.check(todo);
+            String integrity = TodoDataIntegrity.updateCheck(todo);
             if (!integrity.isEmpty()) {
                 throw new TodoDataIntegrityBrokenException(integrity);
             }
@@ -44,7 +43,7 @@ public class TodoService {
         return todoRepository.save(todo);
     }
 
-    public Iterable<Todo> findAllTodosByUsername(String username) {
+    public Iterable<Todo> findAllTodoByUsername(String username) {
         return todoRepository.findAllByUsername(username);
     }
 
@@ -57,12 +56,11 @@ public class TodoService {
         try {
             realId = Long.parseLong(id);
         } catch (NumberFormatException ex) {
-            throw new TodoNotFoundException("Todo ID: '" + id + "' is of invalid format");
+            throw new TodoNotFoundException("Todo ID: '" + id + "' is of invalid format.");
         }
-        Optional<Todo> todo = todoRepository.findByIdAndUsername(realId, username);
-        if (todo.isPresent()) {
-            return todo.get();
-        }
-        throw new TodoNotFoundException("Todo ID: '" + id + "' does not exist or does not belong to the logged in user.");
+
+        return todoRepository.findByIdAndUsername(realId, username).orElseThrow(
+                () -> new TodoNotFoundException("Todo ID: '" + id + "' does not exist or does not belong to the logged in user.")
+        );
     }
 }

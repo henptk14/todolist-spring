@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Getter @Setter @ToString
@@ -44,5 +45,20 @@ public class Task {
     @PreUpdate
     protected void update() {
         updatedAt = new Date();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id.equals(task.id) &&
+                taskDescription.equals(task.taskDescription) &&
+                status.equals(task.status);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, taskDescription, status);
     }
 }

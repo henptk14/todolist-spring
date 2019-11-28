@@ -47,7 +47,8 @@ public class User implements UserDetails {
     @Transient
     private String confirmPassword;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
+    @OneToMany(cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
+    @Builder.Default
     private List<Todo> todoList = new ArrayList<>();
 
     private Date createdAt;

@@ -2,10 +2,10 @@ package com.pyikhine.todolist.entities.integritycheck;
 
 import com.pyikhine.todolist.entities.Todo;
 import com.pyikhine.todolist.entities.User;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static com.pyikhine.todolist.entities.integritycheck.TodoDataIntegrity.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TodoDataIntegrityTest {
@@ -31,7 +31,7 @@ class TodoDataIntegrityTest {
 
     @Test
     void check_allValid() {
-        String actual = TodoDataIntegrity.check(todo);
+        String actual = TodoDataIntegrity.updateCheck(todo);
         assertEquals("", actual);
     }
 
@@ -39,24 +39,24 @@ class TodoDataIntegrityTest {
     void check_nullTodoTitle() {
         todo.setTodoTitle(null);
 
-        String actual = TodoDataIntegrity.check(todo);
-        assertEquals("Todo Title is null.", actual);
+        String actual = TodoDataIntegrity.updateCheck(todo);
+        assertEquals(TITLE_ERROR, actual);
     }
 
     @Test
     void check_nullUser() {
         todo.setUser(null);
 
-        String actual = TodoDataIntegrity.check(todo);
-        assertEquals("Todo's User is null.", actual);
+        String actual = TodoDataIntegrity.updateCheck(todo);
+        assertEquals(USER_ERROR, actual);
     }
 
     @Test
     void check_nullUsername() {
         todo.setUsername(null);
 
-        String actual = TodoDataIntegrity.check(todo);
-        assertEquals("Todo's Username is null.", actual);
+        String actual = TodoDataIntegrity.updateCheck(todo);
+        assertEquals(USERNAME_ERROR, actual);
     }
 
     @Test
@@ -64,7 +64,7 @@ class TodoDataIntegrityTest {
         todo.setUser(null);
         todo.setUsername(null);
 
-        String actual = TodoDataIntegrity.check(todo);
-        assertEquals("Todo's User is null.", actual);
+        String actual = TodoDataIntegrity.updateCheck(todo);
+        assertEquals(USER_ERROR, actual);
     }
 }
