@@ -19,7 +19,7 @@ import java.util.List;
         @UniqueConstraint(columnNames = {"username"}),
         @UniqueConstraint(columnNames = {"email"})
 })
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder(toBuilder = true)
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder(toBuilder = true) @With
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

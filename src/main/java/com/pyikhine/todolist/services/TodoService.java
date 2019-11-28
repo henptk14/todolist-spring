@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-@Log4j2
 public class TodoService {
 
     @Autowired
@@ -25,7 +24,7 @@ public class TodoService {
     private UserRepository userRepository;
 
     public Todo saveOrUpdateTodo(Todo todo, String username) {
-        User user = userRepository.findByUsernameOrEmail(username, "").orElseThrow(
+        User user = userRepository.findByUsernameOrEmail(username).orElseThrow(
                 () -> new UsernameNotFoundException("Username: " + username + " is not found")
         );
         if (todo.getId() == null) {

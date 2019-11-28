@@ -2,6 +2,7 @@ package com.pyikhine.todolist.security;
 
 import com.pyikhine.todolist.entities.User;
 import com.pyikhine.todolist.services.CustomUserDetailsService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 
+@Log4j2
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -39,7 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         } catch (Exception ex) {
-            logger.error("Could not set user details in security context: ", ex);
+            log.error("Could not set user details in security context: ", ex);
         }
         filterChain.doFilter(request, response);
     }

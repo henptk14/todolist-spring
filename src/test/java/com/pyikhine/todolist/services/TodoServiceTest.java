@@ -26,19 +26,19 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class TodoServiceTest {
     @Mock
-    TodoRepository todoRepository;
+    private TodoRepository todoRepository;
 
     @Mock
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @InjectMocks
-    TodoService subject;
+    private TodoService subject;
 
     @Captor
-    ArgumentCaptor<Todo> captor;
+    private ArgumentCaptor<Todo> captor;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.initMocks(this);
     }
 
@@ -63,7 +63,7 @@ class TodoServiceTest {
                 .status("ACTIVE")
                 .build();
 
-        when(userRepository.findByUsernameOrEmail(username, "")).thenReturn(
+        when(userRepository.findByUsernameOrEmail(username)).thenReturn(
                 Optional.of(userBuilder.build()));
 
         subject.saveOrUpdateTodo(todoFromClient, username);
@@ -87,7 +87,7 @@ class TodoServiceTest {
                 .build();
 
         String errorMessage = "Username: " + username + " is not found";
-        when(userRepository.findByUsernameOrEmail(username, ""))
+        when(userRepository.findByUsernameOrEmail(username))
                 .thenThrow(
                         new UsernameNotFoundException(errorMessage)
                 );
@@ -119,7 +119,7 @@ class TodoServiceTest {
                 .status("ACTIVE")
                 .build();
 
-        when(userRepository.findByUsernameOrEmail(username, ""))
+        when(userRepository.findByUsernameOrEmail(username))
                 .thenReturn(Optional.of(userBuilder.build()));
 
         assertThrows(TodoDataIntegrityBrokenException.class,
