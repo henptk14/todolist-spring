@@ -89,4 +89,16 @@ class TodoRepositoryTest {
 
         assertTrue(!actual.isPresent());
     }
+
+    @Test
+    void save_cascadeSaveTask() {
+        Todo todo1 = Todo.builder()
+                .todoTitle("test todo 1")
+                .status("TEST")
+                .username(USERNAME)
+                .build();
+
+
+
+    }
 }

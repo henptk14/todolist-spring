@@ -1,5 +1,6 @@
 package com.pyikhine.todolist.services;
 
+import com.pyikhine.todolist.entities.Task;
 import com.pyikhine.todolist.entities.Todo;
 import com.pyikhine.todolist.entities.User;
 import com.pyikhine.todolist.repository.TaskRepository;
@@ -51,6 +52,13 @@ class TaskServiceTest {
 
     @Test
     void addTaskByTodoId_allValid() {
+        Task task = Task.builder()
+                .taskDescription("test task 1")
+                .build();
 
+        when(todoService.findByTodoId(todo.getId().toString(), todo.getUsername()))
+                .thenReturn(todo);
+
+        
     }
 }

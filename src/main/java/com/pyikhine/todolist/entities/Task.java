@@ -1,9 +1,7 @@
 package com.pyikhine.todolist.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -13,7 +11,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Getter @Setter @ToString
+@Getter @Setter @ToString @Builder(toBuilder = true) @With
 public class Task {
 
     @Id
