@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Getter @Setter @ToString @Builder(toBuilder = true) @With
+@Getter @Setter @Builder(toBuilder = true) @With
 public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +27,9 @@ public class Todo {
 
     private String status;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "todo", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "todo", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    @Builder.Default
-    private List<Task> tasks = new ArrayList<>();
+    private List<Task> tasks;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
@@ -41,6 +40,23 @@ public class Todo {
     private Date createdAt;
 
     private Date updatedAt;
+
+    public boolean addTask(Task task) {
+        if (tasks == null) {
+            tasks = new ArrayList<>();
+        }
+        task.setTodo(this);
+        return tasks.add(task);
+    }
+
+    public boolean removeTask(Task task) {
+        if (tasks == null) {
+            return false;
+        }
+        boolean r = tasks.remove(task);
+        task.setTodo(null);
+        return r;
+    }
 
     @PrePersist
     protected void create() {

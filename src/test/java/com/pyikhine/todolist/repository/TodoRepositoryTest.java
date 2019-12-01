@@ -10,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.swing.text.html.Option;
 import java.util.Arrays;
 
 import java.util.List;
@@ -88,17 +87,5 @@ class TodoRepositoryTest {
         Optional<Todo> actual = todoRepository.findByIdAndUsername(savedTodos.get(0).getId(), "someusername");
 
         assertTrue(!actual.isPresent());
-    }
-
-    @Test
-    void save_cascadeSaveTask() {
-        Todo todo1 = Todo.builder()
-                .todoTitle("test todo 1")
-                .status("TEST")
-                .username(USERNAME)
-                .build();
-
-
-
     }
 }

@@ -23,32 +23,5 @@ public class TaskController {
     @Autowired
     private MapValidationErrorService mapValidationErrorService;
 
-    @PostMapping("/{todoId}")
-    public ResponseEntity<?> addTaskByTodoId(@PathVariable String todoId, @Valid @RequestBody Task task, BindingResult result, Principal principal) {
 
-        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-        if (errorMap != null) return errorMap;
-
-        return new ResponseEntity<>(taskService.addTaskByTodoId(todoId, task, principal.getName()), HttpStatus.CREATED);
-    }
-
-    @GetMapping("/{todoId}")
-    public Iterable<Task> getTasksByTodoId(@PathVariable String todoId, Principal principal) {
-        return taskService.getTasksByTodoId(todoId, principal.getName());
-    }
-
-    @DeleteMapping("/{taskId}")
-    public ResponseEntity<String> deleteTaskById(@PathVariable String taskId) {
-        taskService.deleteTaskById(taskId);
-
-        return new ResponseEntity<>("Task with ID: '" + taskId + "' is deleted", HttpStatus.OK);
-    }
-
-    @PatchMapping("/{taskId}")
-    public ResponseEntity<?> updateTaskById(@PathVariable String taskId, @Valid @RequestBody Task task, BindingResult result) {
-        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-        if (errorMap != null) return errorMap;
-
-        return new ResponseEntity<>(taskService.updateTaskById(taskId, task), HttpStatus.OK);
-    }
 }

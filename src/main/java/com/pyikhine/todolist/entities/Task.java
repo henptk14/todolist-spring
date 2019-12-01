@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Getter @Setter @ToString @Builder(toBuilder = true) @With
+@Getter @Setter @Builder(toBuilder = true) @With @AllArgsConstructor @NoArgsConstructor
 public class Task {
 
     @Id
@@ -26,9 +26,8 @@ public class Task {
 
     private String status;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "todo_id")
-    @JsonIgnore
     private Todo todo;
 
     private Date createdAt;
@@ -50,13 +49,11 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return id.equals(task.id) &&
-                taskDescription.equals(task.taskDescription) &&
-                status.equals(task.status);
+        return id != null && id.equals(task.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, taskDescription, status);
+        return Objects.hash(id);
     }
 }
