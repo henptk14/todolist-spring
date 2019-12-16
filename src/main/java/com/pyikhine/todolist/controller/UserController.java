@@ -9,6 +9,7 @@ import com.pyikhine.todolist.services.MapValidationErrorService;
 import com.pyikhine.todolist.services.UserService;
 import com.pyikhine.todolist.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,6 +41,9 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private Environment environment;
+
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult result) {
         // Validate password match
@@ -67,5 +71,15 @@ public class UserController {
         String jwtToken = SecurityConstants.TOKEN_PREFIX + jwtTokenProvider.generateToken(authentication);
 
         return ResponseEntity.ok(new JwtLoginSuccessResponse(true, jwtToken));
+    }
+
+    // delete this later
+    @GetMapping("/env")
+    public ResponseEntity<?> getEnv() {
+        String s = environment.getProperty("OS");
+        if (s == null || s.isEmpty()){
+            s = "Empty";
+        }
+        return ResponseEntity.ok(s);
     }
 }
