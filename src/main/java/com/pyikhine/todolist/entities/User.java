@@ -37,7 +37,7 @@ public class User implements UserDetails {
     @NotBlank(message = "Email cannot be blank")
     @Email
     @Column(unique = true)
-    @Size(max = 40, message = "Email must be less be less than 40 characters")
+    @Size(max = 50, message = "Email must be less be less than 40 characters")
     private String email;
 
     @NotBlank(message = "Password cannot be blank")

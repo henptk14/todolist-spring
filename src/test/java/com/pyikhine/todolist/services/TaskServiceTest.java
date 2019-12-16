@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -50,15 +51,4 @@ class TaskServiceTest {
                 .build();
     }
 
-    @Test
-    void addTaskByTodoId_allValid() {
-        Task task = Task.builder()
-                .taskDescription("test task 1")
-                .build();
-
-        when(todoService.findByTodoId(todo.getId().toString(), todo.getUsername()))
-                .thenReturn(todo);
-
-        
-    }
 }
