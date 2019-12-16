@@ -76,10 +76,16 @@ public class UserController {
     // delete this later
     @GetMapping("/env")
     public ResponseEntity<?> getEnv() {
-        String s = environment.getProperty("OS");
-        if (s == null || s.isEmpty()){
-            s = "Empty";
+        // vcap.services.mysql.credentials.host
+        String jdbcUrl = environment.getProperty("vcap.services.todolist-db.credentials.jdbcUrl");
+        String vcap = environment.getProperty("VCAP_SERVICES");
+        String s = "";
+        if (jdbcUrl != null) {
+            s += "***jdbcUrl: " + jdbcUrl + " ---- ";
         }
-        return ResponseEntity.ok(s);
+        if (vcap != null) {
+            s += "\n***vcap: " + vcap;
+        }
+        return ResponseEntity.ok(s.isEmpty() ? "empty" : s);
     }
 }
