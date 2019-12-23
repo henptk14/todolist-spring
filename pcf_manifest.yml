@@ -2,7 +2,7 @@ applications:
 - name: todolist-boeing-spring
   random-route: true
   instances: 1
-  memory: 650M
+  memory: 750M
   build_pack: java_buildpack
   path: /target/todolist-0.0.1-SNAPSHOT.jar
   services:
