@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter @Setter @Builder(toBuilder = true) @With
 public class Todo {
     @Id
@@ -27,7 +29,7 @@ public class Todo {
 
     private String status;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "todo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "todo", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Task> tasks;
 
